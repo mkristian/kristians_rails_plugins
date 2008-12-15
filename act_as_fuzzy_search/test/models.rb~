@@ -1,0 +1,25 @@
+class User
+
+  include DataMapper::Resource
+
+  include FuzzySearch
+
+  act_as_fuzzy_search :user, :firstname, :surname
+  
+  def self.word_analyser(word)
+    # strip_diacritics latin1 subset only
+    word.gsub(/ue/, "u").gsub(/ae/, "a").gsub(/oe/, "o").
+      downcase
+  end
+
+  # this methods hides the coupling to fuzzy-search
+  def self.search(query)
+    fuzzy_find(query)
+  end
+
+  property :id, Integer, :serial => true
+
+  property :surname, String, :nullable => false , :format => /^[^<'&">]*$/, :length => 32
+  property :firstname, String, :nullable => false , :format => /^[^<'&">]*$/, :length => 32
+
+end

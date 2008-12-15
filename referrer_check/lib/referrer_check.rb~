@@ -1,0 +1,34 @@
+module ActionController #:nodoc:
+ 
+  class ReferrerMismatchError < RuntimeError
+    def initialize(*args)
+      super(*args)
+    end
+  end
+
+  module ReferrerCheck
+    
+    def check_referrer_mode(mode)
+      @strict = mode.to_s == "strict"
+    end
+
+    def check_referrer
+      @strict = true if @strict.nil?
+
+      # strict => referrer header MUST be present and match the host
+      # !strict => no referrer present or if present it MUST match the host
+      referrer = request.env["HTTP_REFERER"]
+  
+      if @strict 
+        if(referrer.nil? or referrer.match(request.env["HTTP_HOST"]).nil?)
+          throw ReferrerMismatchError.new("host '#{request.env["HTTP_HOST"]}' received a request from alien url '#{request.env["HTTP_REFERER"]}'")        
+        end
+      else
+        if !referrer.nil? and referrer.match(request.env["HTTP_HOST"]).nil?
+            throw ReferrerMismatchError.new("host '#{request.env["HTTP_HOST"]}' received a request from alien url '#{request.env["HTTP_REFERER"]}'")
+        end
+      end
+    end
+  end
+
+end

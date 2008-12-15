@@ -1,0 +1,26 @@
+class <%= class_name %>
+
+  include DataMapper::Persistence
+
+  # datamapper 0.9 will need this, so just to be prepared
+  # for datamapper 0.3.2 this is optional and underlying default
+  property :id, :integer, :serial => true, :key => true
+
+<% for attribute in attributes -%>
+  property :<%= attribute.name %>, :<%= attribute.type %>, :nullable => false <% if attribute.type == :string or attribute.type == :text -%>, :format => /^[^<>]*$/, :length => 32
+<% else -%>
+
+<% end -%>
+<% end -%>
+      <% unless options[:skip_timestamps] %>
+  # nullable => false does not work with these timestamps
+  property :created_at, :datetime
+  property :updated_at, :datetime
+
+<% end 
+  for attribute in attributes 
+    if attribute.type == :integer -%>
+  validates_numericality_of :<%= attribute.name %>
+<% end 
+end -%>
+end

@@ -1,0 +1,33 @@
+CacheHeaders
+============
+
+when I heard about google web documentation (http://code.google.com/p/doctype/wiki/ArticleHttpCaching) I immediately put together this plugin, since I found it always cumbersome to find again and again the tricky details of caching. you can use it as a before filter or inside any action.
+
+
+Example
+=======
+
+class ApplicationController < ActionController::Base
+  . . .
+  before_filter :cache_headers
+
+  include CacheHeaders
+
+  # only browser can cache, no persistent storage and no max-age
+  def cache_headers
+    # max-age = 0, no-store = true
+    only_browser_can_cache(true, 0)
+  end
+  . . . 
+end
+
+or the per action usage
+
+  def index
+    allow_browser_and_proxy_to_cache
+    . . . 
+  end 
+
+all methods take a first argument "no_store" to allow persistence storage or not, default is false, i.e. persistencestorage is allowed.
+
+Copyright (c) 2008 kristian meier, released under the MIT license

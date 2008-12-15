@@ -1,0 +1,64 @@
+module UnrestfulAuthentication
+
+  def logged_in?
+    !!session[:user_id]
+  end
+
+  def current_user
+    session[:user] = login_from_session if logged_in? and session[:user].nil?
+    session[:user]
+  end 
+
+  def current_user=(new_user)
+    session[:user_id] = new_user ? new_user.id : nil
+    session[:user] = new_user
+    def new_user.transient?
+      true
+    end
+  end
+
+  def login_required
+    if logged_in?
+      true
+    else
+      case request.method
+      when :get
+        session.delete
+        login_page
+      when :post
+        user = login
+        if user
+          reset_session
+          self.current_user = user
+          redirect_to request.url
+        else
+          session.delete
+          access_denied
+        end
+      end
+      false
+    end
+  end
+
+  def login
+    User.authenticate(params[:username], params[:password])
+  end
+
+  def login_from_session
+    User.get(session[:user_id])
+  end
+
+  def logout
+    session.delete
+    current_user = nil
+  end
+
+  def access_denied
+    render :template => "sessions/access_denied", :status => :unauthorized
+  end
+
+  def login_page
+    render :template => "sessions/login"
+  end
+
+end

@@ -1,0 +1,71 @@
+module FuzzySearch
+  
+  def self.included(model)
+    model.extend ClassMethods
+    model.send "after", :save, :fuzzy_after_save
+  end
+
+  def fuzzy_after_save
+    fuzzy_ref_id = self.class.instance_variable_get(:@fuzzy_ref_id)
+    trigram_type = self.class.instance_variable_get(:@fuzzy_trigram_type)
+    trigram_type.send(:all, fuzzy_ref_id => id).each{ |t| t.destroy }
+    self.class.instance_variable_get(:@fuzzy_props).each do |prop|
+      word = ' ' + self.class.word_analyser(attribute_get(prop)) + ' '
+      (0..word.length-3).each do |idx|
+        token = word[idx,3]
+        trigram_type.send(:create, :token => token, fuzzy_ref_id => id) #and used << token unless used.member? token
+      end
+    end
+  end
+
+  module ClassMethods
+
+    def self.extended(model)
+      @@model = model
+    end
+    
+    def word_analyser(word)
+      word.downcase
+    end
+  
+    def act_as_fuzzy_search(ref, *properties)
+      @@fuzzy_ref = ref.to_sym
+      @@fuzzy_ref_id = (ref.to_s + "_id").to_sym
+      @@fuzzy_ref_type = Kernel::const_get(Inflector.classify(ref.to_s.capitalize.constantize))
+      @@model.instance_variable_set(:@fuzzy_ref_id, @@fuzzy_ref_id)
+      @@model.instance_variable_set(:@fuzzy_props, properties)
+      @@model.instance_variable_set(:@fuzzy_trigram_type, Kernel::const_get(Inflector.classify((ref.to_s.capitalize + "Trigram").constantize)))
+    end
+
+    def fuzzy_find(words)
+      unless words.instance_of? Array
+        fuzzy_find(words.split(" "))
+      else 
+        trigrams = []
+        words.each do |word|
+          word = ' ' + word_analyser(word) + ' '
+          trigrams << (0..word.length-3).collect {|idx| word[idx,3]}
+        end
+        trigrams = trigrams.flatten
+        p trigrams.join("','")
+        #TODO escape properly !!!
+        repository.adapter.query("SELECT count(*) count, #{@@fuzzy_ref_id} FROM #{@@fuzzy_ref}_trigrams WHERE token in ( \'#{trigrams.join("','")}\' ) group by #{@@fuzzy_ref_id} order by -count", trigrams.join("','").to_s).collect do |i|
+          ref = @@fuzzy_ref_type.send("[]", i.send(@@fuzzy_ref_id)) 
+          # TODO maybe there is a better name instead of weight
+          def ref.fuzzy_weight=(w)
+            @weight = w
+          end
+          def ref.fuzzy_weight
+            @weight
+          end
+          
+          ref.fuzzy_weight = (i.count * 100)/trigrams.size
+          p ref 
+          puts ref.fuzzy_weight
+          ref
+        end
+      end
+    end
+  end
+
+end

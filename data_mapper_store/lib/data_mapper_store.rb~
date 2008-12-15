@@ -1,0 +1,111 @@
+require 'cgi'
+require 'cgi/session'
+require 'digest/md5'
+
+class CGI
+  class Session
+    attr_reader :data
+
+    # A session store backed by an Active Record class.  A default class is
+    # provided, but any object duck-typing to an Active Record Session class
+    # with text +session_id+ and +data+ attributes is sufficient.
+    #
+    # The default assumes a +sessions+ tables with columns:
+    #   +id+ (numeric primary key),
+    #   +session_id+ (text, or longtext if your session data exceeds 65K), and
+    #   +data+ (text or longtext; careful if your session data exceeds 65KB).
+    # The +session_id+ column should always be indexed for speedy lookups.
+    # Session data is marshaled to the +data+ column in Base64 format.
+    # If the data you write is larger than the column's size limit,
+    # ActionController::SessionOverflowError will be raised.
+    #
+    # You may configure the table name, primary key, and data column.
+    # For example, at the end of <tt>config/environment.rb</tt>:
+    #   CGI::Session::ActiveRecordStore::Session.table_name = 'legacy_session_table'
+    #   CGI::Session::ActiveRecordStore::Session.primary_key = 'session_id'
+    #   CGI::Session::ActiveRecordStore::Session.data_column_name = 'legacy_session_data'
+    # Note that setting the primary key to the +session_id+ frees you from
+    # having a separate +id+ column if you don't want it.  However, you must
+    # set <tt>session.model.id = session.session_id</tt> by hand!  A before filter
+    # on ApplicationController is a good place.
+    #
+    # Since the default class is a simple Active Record, you get timestamps
+    # for free if you add +created_at+ and +updated_at+ datetime columns to
+    # the +sessions+ table, making periodic session expiration a snap.
+    #
+    # You may provide your own session class implementation, whether a
+    # feature-packed Active Record or a bare-metal high-performance SQL
+    # store, by setting
+    #   CGI::Session::ActiveRecordStore.session_class = MySessionClass
+    # You must implement these methods:
+    #   self.find_by_session_id(session_id)
+    #   initialize(hash_of_session_id_and_data)
+    #   attr_reader :session_id
+    #   attr_accessor :data
+    #   save
+    #   destroy
+    #
+    # The example SqlBypass class is a generic SQL session store.  You may
+    # use it as a basis for high-performance database-specific stores.
+    class DataMapperStore
+     
+
+      # The class used for session storage.  Defaults to
+      # CGI::Session::ActiveRecordStore::Session.
+      cattr_accessor :session_class
+      
+      # Find or instantiate a session given a CGI::Session.
+      def initialize(session, option = nil)
+        session_id = session.session_id
+        unless @session = @@session_class.get(session_id)
+          unless session.new_session
+            raise CGI::Session::NoSession, 'uninitialized session'
+          end
+          @session = @@session_class.new(:session_id => session_id)#, :data => {})
+          # session saving can be lazy again, because of improved component implementation
+          # therefore next line gets commented out:
+          # @session.save
+
+          # clean up old sessions
+          @@session_class.all(:updated_at.lt => -1.days.from_now).destroy!
+        end
+      end
+
+      # Access the underlying session model.
+      def model
+        @session
+      end
+
+      # Restore session state.  The session model handles unmarshaling.
+      def restore
+        if @session
+          @session.data
+        end
+      end
+
+      # Save session store.
+      def update
+        if @session
+          @session.save
+        end
+      end
+
+      # Save and close the session store.
+      def close
+        if @session
+          update
+          @session = nil
+        end
+      end
+
+      # Delete and close the session store.
+      def delete
+        if @session
+          @session.destroy
+          @session = nil
+        end
+      end
+
+    end
+  end
+end

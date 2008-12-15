@@ -1,0 +1,112 @@
+9
+
+dir
+412
+svn+ssh://saumya@www.saumya.de/var/svn/repos/trunk/rails_plugins/restful_transactions
+svn+ssh://saumya@www.saumya.de/var/svn/repos
+
+
+
+2008-08-24T08:20:37.424654Z
+385
+saumya
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+97a742a7-9b14-0410-9a8f-edfe2a223015
+
+test
+dir
+
+log
+dir
+
+Rakefile
+file
+
+
+
+
+2008-08-02T17:52:45.000000Z
+67e86420b15cfda6e3bf62a3f05a5a11
+2008-08-02T20:51:00.757296Z
+383
+saumya
+
+tasks
+dir
+
+init.rb
+file
+
+
+
+
+2008-08-02T18:31:18.000000Z
+466a6249b99980916ab2c76046c23f38
+2008-08-02T20:51:00.757296Z
+383
+saumya
+
+lib
+dir
+
+install.rb
+file
+
+
+
+
+2008-08-02T17:52:45.000000Z
+cbe738c10eba4ae2da8c6859c9723e44
+2008-08-02T20:51:00.757296Z
+383
+saumya
+
+MIT-LICENSE
+file
+
+
+
+
+2008-08-03T10:02:55.000000Z
+c537034c15c7d57c24b19cef59bb44bf
+2008-08-04T03:56:20.733016Z
+384
+saumya
+
+uninstall.rb
+file
+
+
+
+
+2008-08-02T17:52:45.000000Z
+2a5fc883fe7f8dfe22ced24643d59ad4
+2008-08-02T20:51:00.757296Z
+383
+saumya
+
+README
+file
+
+
+
+
+2008-08-03T11:22:29.000000Z
+1a6cb6ab0e0fa32983a81bafd51ac2b9
+2008-08-04T03:56:20.733016Z
+384
+saumya
+

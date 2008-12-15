@@ -1,0 +1,76 @@
+9
+
+dir
+412
+svn+ssh://saumya@www.saumya.de/var/svn/repos/trunk/rails_plugins/erector/spec
+svn+ssh://saumya@www.saumya.de/var/svn/repos
+
+
+
+2008-07-06T18:55:03.246383Z
+372
+saumya
+
+
+svn:special svn:externals svn:needs-lock
+
+rails_spec_suite.rb
+file
+
+
+
+
+2008-07-05T18:50:31.000000Z
+aed8803d7d300e389714b7ba219c3dfb
+2008-07-06T18:55:03.246383Z
+372
+saumya
+
+erect
+dir
+
+erector
+dir
+
+spec_suite.rb
+file
+
+
+
+
+2008-07-05T18:50:31.000000Z
+c3168356d77a41bb6ae680737b0626b3
+2008-07-06T18:55:03.246383Z
+372
+saumya
+
+rails
+dir
+
+spec_helper.rb
+file
+
+
+
+
+2008-07-05T18:50:31.000000Z
+046ecfd2487b7fc52f939648f37508cf
+2008-07-06T18:55:03.246383Z
+372
+saumya
+
+core_spec_suite.rb
+file
+
+
+
+
+2008-07-05T18:50:31.000000Z
+27ee2c0674d7175dd0b7b8c2be70c692
+2008-07-06T18:55:03.246383Z
+372
+saumya
+
+rails_root
+dir
+

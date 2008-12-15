@@ -1,0 +1,28 @@
+9
+
+dir
+412
+svn+ssh://saumya@www.saumya.de/var/svn/repos/trunk/rails_plugins/guard/tasks
+svn+ssh://saumya@www.saumya.de/var/svn/repos
+
+
+
+2008-07-06T18:55:03.246383Z
+372
+saumya
+
+
+svn:special svn:externals svn:needs-lock
+
+guard_tasks.rake
+file
+
+
+
+
+2008-07-05T18:50:31.000000Z
+91773e82cfbd0ec13ee43a2d53e1748d
+2008-07-06T18:55:03.246383Z
+372
+saumya
+

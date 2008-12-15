@@ -1,0 +1,109 @@
+9
+
+dir
+412
+svn+ssh://saumya@www.saumya.de/var/svn/repos/trunk/rails_plugins/parsedate
+svn+ssh://saumya@www.saumya.de/var/svn/repos
+
+
+
+2008-08-24T08:20:37.424654Z
+385
+saumya
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+97a742a7-9b14-0410-9a8f-edfe2a223015
+
+test
+dir
+
+Rakefile
+file
+
+
+
+
+2008-07-02T10:40:37.000000Z
+fa084762392a647682ddab9f0624eee9
+2008-07-17T06:48:20.453912Z
+375
+saumya
+
+tasks
+dir
+
+init.rb
+file
+
+
+
+
+2008-07-02T16:56:09.000000Z
+674cbb7a806a3aedf68a4a5bb3c2e760
+2008-07-17T06:48:20.453912Z
+375
+saumya
+
+lib
+dir
+
+install.rb
+file
+
+
+
+
+2008-07-02T10:40:37.000000Z
+cbe738c10eba4ae2da8c6859c9723e44
+2008-07-17T06:48:20.453912Z
+375
+saumya
+
+MIT-LICENSE
+file
+
+
+
+
+2008-08-03T07:10:55.000000Z
+c537034c15c7d57c24b19cef59bb44bf
+2008-08-04T03:56:20.733016Z
+384
+saumya
+
+uninstall.rb
+file
+
+
+
+
+2008-07-02T10:40:37.000000Z
+2a5fc883fe7f8dfe22ced24643d59ad4
+2008-07-17T06:48:20.453912Z
+375
+saumya
+
+README
+file
+
+
+
+
+2008-08-03T07:10:20.000000Z
+0b90feeba3246d2e9ecb5cf975cf343e
+2008-08-04T03:56:20.733016Z
+384
+saumya
+

@@ -1,0 +1,20 @@
+RestfulTransactions
+===================
+
+this plugin wraps all modifying requests (post,put,delete) into a transaction. any error or exception will result into a rollback of the transaction. further more a rollback gets triggered when there is only a rendering happening and not a redirect.
+
+the logic here has two aspects, the restful paradigma and user expectations. the restful paradigma allows changes only in post, put and delete and the get request must be idempotent. idempotent means that successive request deliver the same page, i.e. no modification of the underlying datastructure is allowed only reading access. with the other request types, the underlying state of data changes can not be idempotent.
+
+from user point of view, let's say you delete a record and than click the reload button of your browser. the application can do either "nothing", or try to delete the record again which results in an error page "record not found". the "nothing" is the better option, and can be achieved either by program logic, which takes care of such successive request or another programming pattern: doing the action on the database and than redirect the browser to a "get page". with this pattern the user just gets the current page again on clicking the reload, without triggering any database action (other than selects for the requested page).
+
+having this pattern in place and putting the post, put and delete requests in an embracing transaction, you can easily identify when there was an error conditions or validation error and then roll back the whole transaction. the condition is whether controller did sent the redirect header or not. so in case the controller just renders a page, than all the database changes get rolled back.
+
+credits
+=======
+this plugin is only for DataMapper (datamapper.org) in case you need something like this for activerecord have a look at
+http://www.redhillonrails.org
+the activerecord implementation from redhillonrails was the blueprint of this plugin: changed it to datamapper and added the redirect behaviour.
+
+
+
+Copyright (c) 2008 kristian meier, released under the MIT license

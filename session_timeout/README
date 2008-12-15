@@ -1,0 +1,29 @@
+SessionTimeout
+==================
+
+a small module offering idle timeout or IP binding on sessions done on the server. it does NOT clean up stale sessions, just make sure you get a call if the session expired.
+
+
+Example
+=======
+
+add in you controller or application controller following code
+
+
+  before_filter :check_session_expiry, :check_session_ip_binding
+
+  include SessionTimeout 
+
+  def session_expired
+    reset_session
+    render :template => "session_expired"
+  end
+
+  def new_session_timeout
+    30.minutes.from_now
+  end
+
+in the first method 'session_expired' you can redirect or render what 
+ever is needed in that situation. there are two filters which can trigger such a session_expired call: check_session_expiry, check_session_ip_binding. the check_session_expiry uses the methods 'new_session_timeout' to calculate the timeout of the current sessions. session_expired will be called if the next request comes in after the time which was calculated in 'new_session_timeout'. the second filter calls 'session_expired' when the IP of the client changed between two requests.
+
+Copyright (c) 2008 Kristian Meier, released under the MIT license

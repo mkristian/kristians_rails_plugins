@@ -1,0 +1,28 @@
+9
+
+dir
+412
+svn+ssh://saumya@www.saumya.de/var/svn/repos/trunk/rails_plugins/parsedate/test
+svn+ssh://saumya@www.saumya.de/var/svn/repos
+
+
+
+2008-07-17T06:48:20.453912Z
+375
+saumya
+
+
+svn:special svn:externals svn:needs-lock
+
+parsedate_test.rb
+file
+
+
+
+
+2008-07-02T10:40:37.000000Z
+f406c69e7e5686dc72bc4ade9b0185eb
+2008-07-17T06:48:20.453912Z
+375
+saumya
+

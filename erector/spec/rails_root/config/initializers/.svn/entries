@@ -1,0 +1,40 @@
+9
+
+dir
+412
+svn+ssh://saumya@www.saumya.de/var/svn/repos/trunk/rails_plugins/erector/spec/rails_root/config/initializers
+svn+ssh://saumya@www.saumya.de/var/svn/repos
+
+
+
+2008-07-06T18:55:03.246383Z
+372
+saumya
+
+
+svn:special svn:externals svn:needs-lock
+
+inflections.rb
+file
+
+
+
+
+2008-07-05T18:50:31.000000Z
+46b85f9044d69b3d813d0957dae1b026
+2008-07-06T18:55:03.246383Z
+372
+saumya
+
+mime_types.rb
+file
+
+
+
+
+2008-07-05T18:50:31.000000Z
+53b1216a09d1bbd2863d09a5db5318f0
+2008-07-06T18:55:03.246383Z
+372
+saumya
+
