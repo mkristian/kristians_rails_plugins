@@ -1,0 +1,8 @@
+History.txt
+MIT-LICENSE
+Manifest.txt
+README
+README.txt
+Rakefile
+lib/guard.rb
+lib/version.rb

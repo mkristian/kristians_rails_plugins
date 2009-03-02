@@ -39,12 +39,12 @@ module Guard
     
     @@map = {}
 
-    def self.load(logger = Logger(STDOUT), superuser = :root)
+    def self.load(logger = Logger(STDOUT), superuser = :root, guard_dir = "#{RAILS_ROOT}/app/guards")
       @@logger = logger
       @@superuser = superuser
-      Dir.new("#{RAILS_ROOT}/app/guards").to_a.each do |f|
+      Dir.new(guard_dir).to_a.each do |f|
         if f.match(".rb$")
-          require "#{RAILS_ROOT}/app/guards/" + f
+          require(guard_dir + "/" + f)
         end
       end
     end
@@ -59,7 +59,7 @@ module Guard
       controller = controller.to_sym
       if (@@map.key? controller)
         action = action.to_sym
-        allowed = @@map[controller][action] || []
+        allowed = @@map[controller][action]
         if (allowed.nil?)
           throw GuardException.new("GuardException: unknown action #{action} for controller #{controller}")
         else
@@ -81,6 +81,9 @@ module Guard
   class GuardException < Exception; end
   class PermissionDenied < GuardException; end
 end
+
+ActionController::Base.send(:include, Guard::ActionController::Base)
+ActionView::Base.send(:include, Guard::ActionView::Base)
 
 module Erector
   class Widget

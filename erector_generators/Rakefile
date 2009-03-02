@@ -2,10 +2,11 @@
 
 require 'rubygems'
 require 'hoe'
-require './lib/version.rb'
+require './lib/erector_generators.rb'
 
-Hoe.new('guard', Guard::VERSION) do |p|
+Hoe.new('erector_generators', ErectorGenerators::VERSION) do |p|
   p.developer('mkristian', 'm.kristian@web.de')
+  p.extra_deps = ['rspec-rails', 'erector']
 end
 
 desc 'Install the package as a gem.'

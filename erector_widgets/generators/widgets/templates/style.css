@@ -1,0 +1,146 @@
+/* 
+========================
+general 
+========================
+*/
+
+body {
+font-family: verdana, arial, helvetica, sans-serif;
+font-size:   .8em;
+margin: 0;
+}
+div{
+padding: 0;
+margin: 0;
+width: auto;
+}
+
+/*
+========================
+entities
+========================
+*/
+
+.entities {
+padding-bottom: .5em;
+}
+.entities table{
+border-collapse: collapse; 
+width: 100%;
+}
+.entities td, .entities th{
+font-size: .8em;
+padding-bottom:.5em;
+}
+.entities td.cell_buttons {
+padding: 0;
+width: 1em;
+}
+.entities td.cell_buttons form{
+margin: 0;
+}
+.entities td.cell_buttons input {
+margin: 0;
+margin-left:-1px;
+}
+
+/*
+========================
+entity
+========================
+*/
+
+.entity {
+padding-bottom: 1em;
+}
+.entity .timestamps {
+font-size: .7em;
+margin-bottom: 2em;
+}
+.entity .second {
+float: left;
+}
+.entity .first{
+float: left;
+clear: both;
+}
+.entity .first, .entity .second{
+margin: 0;
+padding: 0;
+width: 49% ;
+}
+.entity .action_button{
+clear: both;
+padding-top: 1em;
+margin-left: auto;
+margin-right: auto;
+width: 6em;
+}
+.entity .action_button input, .entity .first input, .entity .second input, .entity .first textarea, .entity .second textarea{
+border-left: 1pt solid darkblue; 
+border-top: 1pt solid darkblue;  
+border-right: 1pt solid darkblue; 
+border-bottom: 1pt solid darkblue;   
+}
+.entity input:focus, .entity textarea:focus {
+background-color: lightgray;
+}
+.entity .action_button input:hover{
+background-color: silver;
+}
+
+/* 
+========================
+both entity and entities
+========================
+*/
+
+.entity, .entities {
+border: 1px solid darkblue;
+padding-right: 1%;
+padding-left: 1%;
+margin: 0;
+}
+.message{
+clear: both;
+padding-top:.5em;
+margin-bottom: .5em;
+margin-left: auto;
+margin-right: auto;
+width: 50%;
+color: darkgreen;
+}
+.errors{
+color: red;
+margin-top: 1em;
+margin-bottom: 1em;
+}
+a {
+text-decoration: none;
+color:_;
+}
+a:hover{
+text-decoration: underline;
+}
+.cell_buttons input, .nav_buttons input, .action_button input{
+font-weight: bold;
+cursor: pointer;
+background-color: white;
+}
+.cell_buttons input, .nav_buttons input{
+border: 0;
+border-left: solid darkblue 1px;
+border-right: solid darkblue 1px;
+border-bottom: solid white 2px;
+}
+.cell_buttons input:hover, .nav_buttons input:hover{
+border-bottom: solid darkblue 2px;
+}
+.nav_buttons{
+float:right;
+}
+.nav_buttons input{
+position: absolute;
+top: 1.77em;
+right: 2em;
+}
