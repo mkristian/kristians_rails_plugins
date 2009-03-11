@@ -1,0 +1,10 @@
+History.txt
+MIT-LICENSE
+Manifest.txt
+README
+README.txt
+Rakefile
+lib/action_controller/session/datamapper_store.rb
+lib/cgi/session/data_mapper_store.rb
+lib/datamapper_store.rb
+lib/version.rb

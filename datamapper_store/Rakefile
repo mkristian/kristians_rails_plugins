@@ -1,0 +1,18 @@
+# -*- ruby -*-
+
+require 'rubygems'
+require 'hoe'
+require './lib/version.rb'
+
+Hoe.new('datamapper_store', DatamapperStore::VERSION) do |p|
+  p.developer('mkristian', 'm.kristian@web.de')
+  p.extra_deps = ['dm-core']
+end
+
+desc 'Install the package as a gem.'
+task :install => [:clean, :package] do
+  gem = Dir['pkg/*.gem'].first
+  sh "gem install --local #{gem} --no-ri --no-rdoc"
+end
+
+# vim: syntax=Ruby
