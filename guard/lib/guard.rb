@@ -10,8 +10,9 @@ module Guard
         protected
         
         def guard
-          unless current_user.nil? or ::Guard::Guard.check(params[:controller], params[:action], current_user.roles) 
-            throw PermissionDeniedException.new("permission denied for #{params[:controller]}##{params[:action]}")
+          unless current_user.nil? or ::Guard::Guard.check(params[:controller], params[:action], current_user.roles)
+            u = current_user
+            throw ::Guard::PermissionDenied.new("permission denied for {#{u.roles.each{|r| r.name}.join ',' }} on #{params[:controller]}##{params[:action]}")
           end
           return true
         end
@@ -29,7 +30,8 @@ module Guard
       
       module InstanceMethods #:nodoc:
         def allowed(controller, action)
-          ::Guard::Guard.check(controller, action, current_user.roles)
+          current = helpers.controller.send(:current_user)
+          ::Guard::Guard.check(controller, action, current.nil? ? [] : current.roles)
         end
       end
     end
@@ -90,7 +92,8 @@ module Erector
     def allowed(controller, action)
       if helpers.controller.respond_to? :current_user
         # send bypasses the protected check of a method
-        Guard::Guard.check(controller, action, helpers.controller.send(:current_user).roles)
+        current = helpers.controller.send(:current_user)
+        Guard::Guard.check(controller, action, current.nil? ? []: current.roles)
       else 
         true
       end
