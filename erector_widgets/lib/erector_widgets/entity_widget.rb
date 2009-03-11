@@ -2,7 +2,7 @@ class ErectorWidgets::EntityWidget < ErectorWidgets::BaseWidget
 
   def initialize(view, assigns, *args)
     super(view, assigns, *args)
-    @__entity = assigns["#{entity_symbol}"]
+    @__entity = assigns["#{entity_symbol}"] if entity_symbol
     @__disabled = false
   end
 
@@ -14,6 +14,12 @@ class ErectorWidgets::EntityWidget < ErectorWidgets::BaseWidget
     "please overwrite"
   end
 
+  def render_errors
+    div :class => :errors do
+      error_messages_for entity_symbol if entity_symbol
+    end
+  end
+
   def render
     fieldset :class => :entity do
       legend title
@@ -22,9 +28,7 @@ class ErectorWidgets::EntityWidget < ErectorWidgets::BaseWidget
 
       render_timestamps
 
-      div :class => :errors do
-        error_messages_for entity_symbol
-      end
+      render_errors
 
       if flash[:notice]
         div :class => :message do
@@ -37,7 +41,7 @@ class ErectorWidgets::EntityWidget < ErectorWidgets::BaseWidget
   end
 
   def render_timestamps
-    unless @__entity.new_record?
+    if @__entity and not @__entity.new_record?
       div :class => :timestamps do
         div :class => :first do
           text "created at" + " " + @__entity.created_at.asctime if @__entity.attributes.member? :created_at

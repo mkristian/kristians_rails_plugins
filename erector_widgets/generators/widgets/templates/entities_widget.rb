@@ -21,7 +21,8 @@ class Views::<%= plural_name.camelize %>::<%= plural_name.camelize %>Widget < Er
 
   def render_table_header
 <% for attribute in attributes -%>
-          th "<%= attribute.column.human_name %>"
+<% if attribute.field_type.to_s != 'text_area' -%>    th "<%= attribute.column.human_name %>"
+<% end -%>
 <% end -%>
   end
 
@@ -40,8 +41,8 @@ class Views::<%= plural_name.camelize %>::<%= plural_name.camelize %>Widget < Er
       a <%= singular_name %>.<%= attribute.name %>, <% if options[:add_guard] -%>args<% else -%>:href => edit_<%= singular_name %>_path(<%= singular_name %>.id)
 <% end -%>
 
-<% else -%>
     end
+<% else -%>
     <% if attribute.field_type.to_s != 'text_area' -%>td <%= singular_name %>.<%= attribute.name %>
 <% end -%>
 <%   end
@@ -54,7 +55,7 @@ class Views::<%= plural_name.camelize %>::<%= plural_name.camelize %>Widget < Er
         form_for(:<%= singular_name %>, 
                  :url => <%= singular_name %>_path(<%= singular_name %>.id),
                  :html => { :method => :delete ,
-                   :confirm => 'Are you sure?'}) do |f|
+                 :confirm => 'Are you sure?'}) do |f|
           rawtext(f.submit("delete"))
         end
 <% if options[:add_guard] -%>
