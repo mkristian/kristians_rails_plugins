@@ -6,6 +6,16 @@ describe <%= controller_class_name %>Controller do
     @mock_<%= file_name %> ||= mock_model(<%= class_name %>, stubs)
   end
   
+<% if options[:add_guard] -%>
+  before(:each) do
+    user = User.new(:id => 1)
+    def user.groups
+      [Group.new(:name => "root")]
+    end
+    controller.send(:current_user=, user)
+  end
+<% end -%>
+
   describe "GET index" do
 
     it "exposes all <%= table_name.pluralize %> as @<%= table_name.pluralize %>" do
@@ -134,7 +144,7 @@ describe <%= controller_class_name %>Controller do
       it "updates the requested <%= file_name %>" do
         <%= class_name %>.should_receive(:get!).with("37").and_return(mock_<%= file_name %>)
         mock_<%= file_name %>.should_receive(:update_attributes).with({'these' => 'params'})
-        mock_user.should_receive(:dirty?)
+        mock_<%= file_name %>.should_receive(:dirty?)
         put :update, :id => "37", :<%= file_name %> => {:these => 'params'}
       end
 
