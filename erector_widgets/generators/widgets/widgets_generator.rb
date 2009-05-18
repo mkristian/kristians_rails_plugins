@@ -1,6 +1,6 @@
 require "activerecord"
 class WidgetsGenerator < Rails::Generator::NamedBase
-  default_options :skip_timestamps => false, :add_guards => false
+  default_options :skip_timestamps => false, :skip_page => false, :add_guard => false, :i18n => false
 
   attr_reader   :controller_name,
                 :controller_class_path,
@@ -50,7 +50,9 @@ class WidgetsGenerator < Rails::Generator::NamedBase
                  File.join('app/views', controller_class_path, controller_file_name, "#{plural_name}_widget.rb"))
 
       # Layout and stylesheet.
-      m.template('page.rb', File.join('app/views/layouts', controller_class_path, "page.rb"))
+      unless options[:skip_page]
+        m.template('page.rb', File.join('app/views/layouts', controller_class_path, "page.rb"))
+      end
       if File.exists?('public/stylesheets')
         m.template('style.css', 'public/stylesheets/widgets.css') 
       else
@@ -70,8 +72,12 @@ class WidgetsGenerator < Rails::Generator::NamedBase
     opt.separator 'Options:'
     opt.on("--skip-timestamps",
            "Don't add timestamps for this model") { |v| options[:skip_timestamps] = v }
-    opt.on("--add-guards",
-           "Add guards for the actions on this model") { |v| options[:add_guards] = v }
+    opt.on("--skip-page",
+           "Skip layout page") { |v| options[:skip_page] = v }
+    opt.on("--add-guard",
+           "Add guards for the actions on this model") { |v| options[:add_guard] = v }
+    opt.on("--i18n",
+           "use i18n keys instead of text") { |v| options[:i18n] = v }
   end
   
   def scaffold_views

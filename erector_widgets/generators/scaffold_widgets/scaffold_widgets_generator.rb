@@ -1,3 +1,4 @@
+require "activerecord"
 class ScaffoldWidgetsGenerator < Rails::Generator::NamedBase
   default_options :skip_timestamps => false, :skip_migration => true
 
@@ -35,15 +36,21 @@ class ScaffoldWidgetsGenerator < Rails::Generator::NamedBase
       
       if options[:add_guard] 
         m.directory(File.join('app/guards', controller_class_path))
-        m.template 'guard.rb',      File.join('app/guards', class_path, "#{table_name}_guard.rb")
+        m.template 'guard.rb', File.join('app/guards', class_path, "#{table_name}_guard.rb")
+      end
+      
+      if options[:i18n] 
+        m.directory(File.join('config/locales', controller_class_path))
+        m.template 'i18n.rb', File.join('config/locales', class_path, "#{table_name}.yml")
       end
       
       m.dependency 'rspec_dm_model', [name] + @args, :collision => options[:collision]
 
-      
-      m.dependency 'controllers', [name], :collision => options[:collision]
+      m.directory File.join('spec/controllers', class_path)
 
-      m.dependency 'widgets', [name] + @args, :collision => options[:collision]
+      m.dependency 'rspec_dm_controller', [name], :collision => options[:collision]
+
+      m.dependency 'widgets', [name] + @args, :collision => options[:collision], :skip_page => options[:skip_page]
     end
   end
 
@@ -60,6 +67,12 @@ class ScaffoldWidgetsGenerator < Rails::Generator::NamedBase
            "Don't add timestamps to the migration file for this model") { |v| options[:skip_timestamps] = v }
     opt.on("--add-guard",
            "Add a guard for the actions on this model") { |v| options[:add_guard] = v }
+    opt.on("--add-constraints",
+           "Add constraints for this model") { |v| options[:add_constraints] = v }
+    opt.on("--skip-page",
+           "Skip layout page") { |v| options[:skip_page] = v }
+    opt.on("--i18n",
+           "use i18n keys instead of text") { |v| options[:i18n] = v }
   end
   
   def model_name

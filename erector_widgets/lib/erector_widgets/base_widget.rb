@@ -2,6 +2,10 @@ class ErectorWidgets::BaseWidget < Erector::Widget
  
   private 
   
+  def t(text)
+    I18n.translate(text)
+  end
+
   def error_messages_for(entities)
     if entities.instance_of? Symbol
       entities = [entities]
@@ -23,9 +27,8 @@ class ErectorWidgets::BaseWidget < Erector::Widget
           end
       end
     end
-    if size > 0
-      rawtext errortext
-    end
+    
+    errortext if size > 0
   end
 
   def error_message_on(entity, attribute)

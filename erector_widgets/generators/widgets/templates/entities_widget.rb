@@ -5,7 +5,8 @@ class Views::<%= plural_name.camelize %>::<%= plural_name.camelize %>Widget < Er
   end
 
   def title
-    "<%= singular_name %>list"
+    <% if options[:i18n] -%>t("<%= plural_name %>.list")<% else -%>"<%= singular_name %>list"<% end -%>
+
   end
   
   def render_navigation
@@ -13,7 +14,7 @@ class Views::<%= plural_name.camelize %>::<%= plural_name.camelize %>Widget < Er
     if allowed(:<%= plural_name %>, :new)
 <% end -%>
       div :class => :nav_buttons do
-        button_to 'new', new_<%= singular_name %>_path, :method => :get
+        button_to <% if options[:i18n] -%>t('widget.new')<% else -%>'new'<% end-%>, new_<%= singular_name %>_path, :method => :get
       end
 <% if options[:add_guard] %>    end
 <% end -%>
@@ -21,7 +22,8 @@ class Views::<%= plural_name.camelize %>::<%= plural_name.camelize %>Widget < Er
 
   def render_table_header
 <% for attribute in attributes -%>
-<% if attribute.field_type.to_s != 'text_area' -%>    th "<%= attribute.column.human_name %>"
+<% if attribute.field_type.to_s != 'text_area' -%>    th <% if options[:i18n] -%>t('<%= plural_name %>.<%= attribute.column.name %>')<% else -%>"<%= attribute.column.human_name %>"<% end -%>
+
 <% end -%>
 <% end -%>
   end
@@ -54,9 +56,9 @@ class Views::<%= plural_name.camelize %>::<%= plural_name.camelize %>Widget < Er
 <% end -%>
         form_for(:<%= singular_name %>, 
                  :url => <%= singular_name %>_path(<%= singular_name %>.id),
-                 :html => { :method => :delete ,
-                 :confirm => 'Are you sure?'}) do |f|
-          rawtext(f.submit("delete"))
+                 :html => { :method => :delete , #:confirm => 'Are you sure?'
+                          }) do |f|
+          rawtext(f.submit(<% if options[:i18n] -%>t('widget.delete')<% else -%>"delete"<% end -%>))
         end
 <% if options[:add_guard] -%>
       end

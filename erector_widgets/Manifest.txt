@@ -4,6 +4,7 @@ README.txt
 Rakefile
 generators/scaffold_widgets/scaffold_widgets_generator.rb
 generators/scaffold_widgets/templates/guard.rb
+generators/scaffold_widgets/templates/i18n.rb
 generators/widgets/templates/edit.rb
 generators/widgets/templates/entities_widget.rb
 generators/widgets/templates/entity_widget.rb
@@ -17,4 +18,6 @@ lib/erector_widgets.rb
 lib/erector_widgets/base_widget.rb
 lib/erector_widgets/entities_widget.rb
 lib/erector_widgets/entity_widget.rb
+lib/erector_widgets/locales/widgets.yml
+lib/erector_widgets/locales/widgets_de.yml
 lib/version.rb

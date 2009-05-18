@@ -25,7 +25,10 @@ entities
 padding-bottom: .5em;
 }
 .entities table{
+position: relative;
+top: -1.5em;
 border-collapse: collapse; 
+margin-bottom: -1.5em;
 width: 100%;
 }
 .entities td, .entities th{
@@ -53,9 +56,14 @@ entity
 .entity {
 padding-bottom: 1em;
 }
+.entity .scrollable{
+height: 25em;
+overflow: auto;
+}
 .entity .timestamps {
+position: relative;
+top: -2em;
 font-size: .7em;
-margin-bottom: 2em;
 }
 .entity .second {
 float: left;
@@ -101,19 +109,26 @@ padding-right: 1%;
 padding-left: 1%;
 margin: 0;
 }
-.message{
-clear: both;
-padding-top:.5em;
-margin-bottom: .5em;
-margin-left: auto;
-margin-right: auto;
+.message, .errors{
+position: relative;
+top: -2em;
+background-color: lightgrey;
+opacity: .8;
+padding: 1em;
 width: 50%;
+margin-left:auto;
+margin-right:auto;
+margin-top: 1.5em;
+margin-bottom: -3em;
+text-align: center;
+}
+.message{
 color: darkgreen;
+border: darkgreen solid 1px;
 }
 .errors{
-color: red;
-margin-top: 1em;
-margin-bottom: 1em;
+color: darkred;
+border: darkred solid 1px;
 }
 a {
 text-decoration: none;
@@ -140,7 +155,6 @@ border-bottom: solid darkblue 2px;
 float:right;
 }
 .nav_buttons input{
-position: absolute;
-top: 2.1em;
-right: 2em;
+margin-top: -.9em;
+margin-left: -1px;
 }

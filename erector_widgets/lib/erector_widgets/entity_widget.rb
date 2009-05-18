@@ -15,8 +15,10 @@ class ErectorWidgets::EntityWidget < ErectorWidgets::BaseWidget
   end
 
   def render_errors
-    div :class => :errors do
-      error_messages_for entity_symbol if entity_symbol
+    if entity_symbol and (errors = error_messages_for(entity_symbol))
+      div :class => :errors do
+        rawtext errors
+      end
     end
   end
 
@@ -33,6 +35,7 @@ class ErectorWidgets::EntityWidget < ErectorWidgets::BaseWidget
       if flash[:notice]
         div :class => :message do
           text flash[:notice]
+          flash.clear
         end
       end
 
@@ -54,6 +57,7 @@ class ErectorWidgets::EntityWidget < ErectorWidgets::BaseWidget
   end
 
   def render_navigation(disabled)
+    div nbsp(" "), :class => :nav_buttons
   end
   
   def render_entity(disabled)

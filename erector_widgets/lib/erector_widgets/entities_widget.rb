@@ -1,4 +1,4 @@
-class ErectorWidgets::EntitiesWidget < Erector::Widget
+class ErectorWidgets::EntitiesWidget < ErectorWidgets::BaseWidget
 
   def initialize(view, assigns, *args)
     super(view, assigns, *args)
