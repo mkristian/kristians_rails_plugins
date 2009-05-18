@@ -5,7 +5,7 @@ module ActionController
       def initialize(app, options = {})
         super
         if options.delete(:cache)
-          @cache = {}
+          @@cache = {}
         end
         @@session_class = ::DatamapperStore::Session
       end
@@ -14,8 +14,8 @@ module ActionController
       def get_session(env, sid)
         sid ||= generate_sid
         session = 
-          if @cache
-            @cache[sid] || @@session_class.get(sid)
+          if @@cache
+            @@cache[sid] || @@session_class.get(sid)
           else
             @@session_class.get(sid)
           end
@@ -23,9 +23,17 @@ module ActionController
       end
       
       def set_session(env, sid, session_data)
-        session = @@session_class.get(sid) || @@session_class.new(:session_id => sid)
-        session.data = session_data
-        @cache[sid] = session if @cache
+        session = 
+          if @@cache
+            @@cache[sid] || @@session_class.get(sid)
+          else
+            @@session_class.get(sid)
+          end || @@session_class.new(:session_id => sid)
+        session.data = session_data || {}
+        if session.new_record?
+          session.updated_at = Time.now
+          @@cache[sid] = session if @@cache
+        end
         session.save
       end
     end
